@@ -59,8 +59,9 @@ initialLoad();
 
 breedSelect.addEventListener('click', handleClick);
 
-async function handleClick() {
-  await console.log('listener test')
+ async function handleClick() {
+  const response = await fetch('https://api.thecatapi.com/v1/breeds');
+  const jsonData = await response.json();
 }
 
 /**

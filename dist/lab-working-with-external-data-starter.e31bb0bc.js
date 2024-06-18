@@ -12388,12 +12388,19 @@ function handleClick() {
  */
 function _handleClick() {
   _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+    var response, jsonData;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return console.log('listener test');
+          return fetch('https://api.thecatapi.com/v1/breeds');
         case 2:
+          response = _context2.sent;
+          _context2.next = 5;
+          return response.json();
+        case 5:
+          jsonData = _context2.sent;
+        case 6:
         case "end":
           return _context2.stop();
       }
@@ -12457,7 +12464,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50298" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53029" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
