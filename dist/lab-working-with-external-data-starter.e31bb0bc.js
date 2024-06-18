@@ -12281,13 +12281,13 @@ function initialLoad() {
 }
 function _initialLoad() {
   _initialLoad = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var id, name, option, response, jsonData, i;
+    var fragment, id, name, response, jsonData, i, option;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
+          fragment = document.createDocumentFragment();
           id = '';
           name = '';
-          option = document.createElement('option');
           _context.next = 5;
           return fetch('https://api.thecatapi.com/v1/breeds');
         case 5:
@@ -12299,13 +12299,16 @@ function _initialLoad() {
           for (i = 0; i < jsonData.length; i++) {
             id = jsonData[i].id;
             name = jsonData[i].name;
-            //console.log(id, name); I'm getting the right information, but I am appending it wrong.
+            option = document.createElement('option');
             option.setAttribute('value', id);
             option.textContent = "".concat(name);
-            breedSelect.appendChild(option);
+            fragment.appendChild(option);
+            console.log(id, name, option);
           }
+          console.log(fragment);
           console.log(jsonData);
-        case 11:
+          return _context.abrupt("return", breedSelect.appendChild(fragment));
+        case 13:
         case "end":
           return _context.stop();
       }
@@ -12314,6 +12317,7 @@ function _initialLoad() {
   return _initialLoad.apply(this, arguments);
 }
 initialLoad();
+
 /**
  * 2. Create an event handler for breedSelect that does the following:
  * - Retrieve information on the selected breed from the cat API using fetch().
@@ -12329,6 +12333,10 @@ initialLoad();
  * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
  */
 
+breedSelect.addEventListener('click', handleClick);
+function handleClick() {
+  return _handleClick.apply(this, arguments);
+}
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
  */
@@ -12347,7 +12355,6 @@ initialLoad();
  * - Add a console.log statement to indicate when requests begin.
  * - As an added challenge, try to do this on your own without referencing the lesson material.
  */
-
 /**
  * 6. Next, we'll create a progress bar to indicate the request is in progress.
  * - The progressBar element has already been created for you.
@@ -12363,7 +12370,6 @@ initialLoad();
  *   once or twice per request to this API. This is still a concept worth familiarizing yourself
  *   with for future projects.
  */
-
 /**
  * 7. As a final element of progress indication, add the following to your axios interceptors:
  * - In your request interceptor, set the body element's cursor style to "progress."
@@ -12380,6 +12386,21 @@ initialLoad();
  *   you delete that favourite using the API, giving this function "toggle" functionality.
  * - You can call this function by clicking on the heart at the top right of any image.
  */
+function _handleClick() {
+  _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
+        case 0:
+          _context2.next = 2;
+          return console.log('listener test');
+        case 2:
+        case "end":
+          return _context2.stop();
+      }
+    }, _callee2);
+  }));
+  return _handleClick.apply(this, arguments);
+}
 function favourite(_x) {
   return _favourite.apply(this, arguments);
 }
@@ -12400,14 +12421,14 @@ function favourite(_x) {
  *   your code should account for this.
  */
 function _favourite() {
-  _favourite = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(imgId) {
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) switch (_context2.prev = _context2.next) {
+  _favourite = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(imgId) {
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
         case 0:
         case "end":
-          return _context2.stop();
+          return _context3.stop();
       }
-    }, _callee2);
+    }, _callee3);
   }));
   return _favourite.apply(this, arguments);
 }
@@ -12436,7 +12457,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65520" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50298" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

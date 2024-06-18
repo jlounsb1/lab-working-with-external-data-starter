@@ -22,22 +22,26 @@ const API_KEY = 'live_v5shdOvNFnkRtRk9QXMloW2eTzvASYlqXLpKfFQtU9WgZW58y7Dku0yJH2
  * This function should execute immediately.
  */
 async function initialLoad() {
+  let fragment = document.createDocumentFragment();
   let id = '';
   let name= '';
-  let option = document.createElement('option');
   const response = await fetch('https://api.thecatapi.com/v1/breeds');
   const jsonData = await response.json();
   for(let i=0; i<jsonData.length; i++) {
-   id = jsonData[i].id;
-   name= jsonData[i].name;
-  //console.log(id, name); I'm getting the right information, but I am appending it wrong.
-  option.setAttribute('value',id);
-  option.textContent = `${name}`
-  breedSelect.appendChild(option);
+    id = jsonData[i].id;
+    name= jsonData[i].name;
+    let option= document.createElement('option');
+    option.setAttribute('value',id);
+    option.textContent = `${name}`;
+    fragment.appendChild(option);
+    console.log(id, name, option)
   }
+  console.log(fragment)
   console.log(jsonData)
+  return breedSelect.appendChild(fragment)
 }
 initialLoad();
+
 /**
  * 2. Create an event handler for breedSelect that does the following:
  * - Retrieve information on the selected breed from the cat API using fetch().
@@ -52,6 +56,12 @@ initialLoad();
  * - Each new selection should clear, re-populate, and restart the Carousel.
  * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
  */
+
+breedSelect.addEventListener('click', handleClick);
+
+async function handleClick() {
+  await console.log('listener test')
+}
 
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
