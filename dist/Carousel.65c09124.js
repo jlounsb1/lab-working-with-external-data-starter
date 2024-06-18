@@ -12197,7 +12197,7 @@ var progressBar = document.getElementById('progressBar');
 var getFavouritesBtn = document.getElementById('getFavouritesBtn');
 
 // Step 0: Store your API key here for reference and easy access.
-var API_KEY = '';
+var API_KEY = 'live_v5shdOvNFnkRtRk9QXMloW2eTzvASYlqXLpKfFQtU9WgZW58y7Dku0yJH2RCfTPh';
 
 /**
  * 1. Create an async function "initialLoad" that does the following:
@@ -12207,7 +12207,44 @@ var API_KEY = '';
  *  - Each option should display text equal to the name of the breed.
  * This function should execute immediately.
  */
-
+function initialLoad() {
+  return _initialLoad.apply(this, arguments);
+}
+function _initialLoad() {
+  _initialLoad = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+    var id, name, option, response, jsonData, i;
+    return _regeneratorRuntime().wrap(function _callee$(_context) {
+      while (1) switch (_context.prev = _context.next) {
+        case 0:
+          id = '';
+          name = '';
+          option = document.createElement('option');
+          _context.next = 5;
+          return fetch('https://api.thecatapi.com/v1/breeds');
+        case 5:
+          response = _context.sent;
+          _context.next = 8;
+          return response.json();
+        case 8:
+          jsonData = _context.sent;
+          for (i = 0; i < jsonData.length; i++) {
+            id = jsonData[i].id;
+            name = jsonData[i].name;
+            //console.log(id, name); I'm getting the right information, but I am appending it wrong.
+            option.setAttribute('value', id);
+            option.textContent = "".concat(name);
+            breedSelect.appendChild(option);
+          }
+          console.log(jsonData);
+        case 11:
+        case "end":
+          return _context.stop();
+      }
+    }, _callee);
+  }));
+  return _initialLoad.apply(this, arguments);
+}
+initialLoad();
 /**
  * 2. Create an event handler for breedSelect that does the following:
  * - Retrieve information on the selected breed from the cat API using fetch().
@@ -12294,14 +12331,14 @@ function favourite(_x) {
  *   your code should account for this.
  */
 function _favourite() {
-  _favourite = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(imgId) {
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) switch (_context.prev = _context.next) {
+  _favourite = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(imgId) {
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
         case 0:
         case "end":
-          return _context.stop();
+          return _context2.stop();
       }
-    }, _callee);
+    }, _callee2);
   }));
   return _favourite.apply(this, arguments);
 }
@@ -12399,7 +12436,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65364" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65520" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

@@ -11,7 +11,7 @@ const progressBar = document.getElementById('progressBar');
 const getFavouritesBtn = document.getElementById('getFavouritesBtn');
 
 // Step 0: Store your API key here for reference and easy access.
-const API_KEY = '';
+const API_KEY = 'live_v5shdOvNFnkRtRk9QXMloW2eTzvASYlqXLpKfFQtU9WgZW58y7Dku0yJH2RCfTPh';
 
 /**
  * 1. Create an async function "initialLoad" that does the following:
@@ -21,7 +21,23 @@ const API_KEY = '';
  *  - Each option should display text equal to the name of the breed.
  * This function should execute immediately.
  */
-
+async function initialLoad() {
+  let id = '';
+  let name= '';
+  let option = document.createElement('option');
+  const response = await fetch('https://api.thecatapi.com/v1/breeds');
+  const jsonData = await response.json();
+  for(let i=0; i<jsonData.length; i++) {
+   id = jsonData[i].id;
+   name= jsonData[i].name;
+  //console.log(id, name); I'm getting the right information, but I am appending it wrong.
+  option.setAttribute('value',id);
+  option.textContent = `${name}`
+  breedSelect.appendChild(option);
+  }
+  console.log(jsonData)
+}
+initialLoad();
 /**
  * 2. Create an event handler for breedSelect that does the following:
  * - Retrieve information on the selected breed from the cat API using fetch().
