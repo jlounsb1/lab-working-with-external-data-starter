@@ -10,6 +10,8 @@ const progressBar = document.getElementById('progressBar');
 // The get favourites button element.
 const getFavouritesBtn = document.getElementById('getFavouritesBtn');
 
+const carouselInner = document.getElementById('carouselInner');
+
 // Step 0: Store your API key here for reference and easy access.
 const API_KEY = 'live_v5shdOvNFnkRtRk9QXMloW2eTzvASYlqXLpKfFQtU9WgZW58y7Dku0yJH2RCfTPh';
 
@@ -36,7 +38,7 @@ async function initialLoad() {
     breedSelect.appendChild(option);
     // console.log(id, name, option)
   }
-  console.log(jsonData)
+  // console.log(jsonData)
 }
 initialLoad();
 
@@ -59,10 +61,22 @@ breedSelect.addEventListener('click', handleClick);
 //I want to get the even listener to select just the breed id so I can get that into a variable, then request it in my api pull
  async function handleClick(event) {
  const breedId = event.target.value;
- console.log(breedId)
+ let imgUrl = '';
+//  console.log(breedId)
   const response = await fetch(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}&limit=10`);
   const jsonData = await response.json();
-  console.log(jsonData)
+  // console.log(jsonData)
+  for(let i=0; i<jsonData.length; i++) {
+    imgUrl = jsonData[i].url;
+    let imgEl = document.createElement('img');
+    let divEl = document.createElement('div');
+    divEl.setAttribute('class', 'img-wrapper carousel-item')
+    imgEl.setAttribute('class', 'carousel-item card')
+    imgEl.setAttribute('src',imgUrl);
+    divEl.appendChild(imgEl)
+    carouselInner.prepend(divEl);
+   //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
+  }
   
 }
 

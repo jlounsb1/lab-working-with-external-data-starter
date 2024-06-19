@@ -12195,6 +12195,7 @@ var infoDump = document.getElementById('infoDump');
 var progressBar = document.getElementById('progressBar');
 // The get favourites button element.
 var getFavouritesBtn = document.getElementById('getFavouritesBtn');
+var carouselInner = document.getElementById('carouselInner');
 
 // Step 0: Store your API key here for reference and easy access.
 var API_KEY = 'live_v5shdOvNFnkRtRk9QXMloW2eTzvASYlqXLpKfFQtU9WgZW58y7Dku0yJH2RCfTPh';
@@ -12235,8 +12236,8 @@ function _initialLoad() {
             breedSelect.appendChild(option);
             // console.log(id, name, option)
           }
-          console.log(jsonData);
-        case 10:
+          // console.log(jsonData)
+        case 9:
         case "end":
           return _context.stop();
       }
@@ -12317,12 +12318,12 @@ function handleClick(_x) {
  */
 function _handleClick() {
   _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(event) {
-    var breedId, response, jsonData;
+    var breedId, imgUrl, response, jsonData, i, imgEl, divEl;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           breedId = event.target.value;
-          console.log(breedId);
+          imgUrl = ''; //  console.log(breedId)
           _context2.next = 4;
           return fetch("https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10"));
         case 4:
@@ -12331,7 +12332,18 @@ function _handleClick() {
           return response.json();
         case 7:
           jsonData = _context2.sent;
-          console.log(jsonData);
+          // console.log(jsonData)
+          for (i = 0; i < jsonData.length; i++) {
+            imgUrl = jsonData[i].url;
+            imgEl = document.createElement('img');
+            divEl = document.createElement('div');
+            divEl.setAttribute('class', 'img-wrapper carousel-item');
+            imgEl.setAttribute('class', 'carousel-item card');
+            imgEl.setAttribute('src', imgUrl);
+            divEl.appendChild(imgEl);
+            carouselInner.prepend(divEl);
+            //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
+          }
         case 9:
         case "end":
           return _context2.stop();
@@ -12465,7 +12477,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65259" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49386" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
