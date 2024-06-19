@@ -12336,6 +12336,46 @@ breedSelect.addEventListener('click', handleClick);
 function handleClick(_x) {
   return _handleClick.apply(this, arguments);
 }
+function _handleClick() {
+  _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(event) {
+    var breedId, imgUrl, response, jsonData, i, imgEl, divEl;
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
+        case 0:
+          breedId = event.target.value;
+          imgUrl = ''; //  console.log(breedId)
+          _context2.next = 4;
+          return fetch("https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10"));
+        case 4:
+          response = _context2.sent;
+          _context2.next = 7;
+          return response.json();
+        case 7:
+          jsonData = _context2.sent;
+          // console.log(jsonData)
+          for (i = 0; i < jsonData.length; i++) {
+            imgUrl = jsonData[i].url;
+            imgEl = document.createElement('img');
+            divEl = document.createElement('div');
+            divEl.setAttribute('class', 'img-wrapper carousel-item');
+            imgEl.setAttribute('class', 'carousel-item card');
+            imgEl.setAttribute('src', imgUrl);
+            divEl.appendChild(imgEl);
+            carouselInner.prepend(divEl);
+            //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
+          }
+        case 9:
+        case "end":
+          return _context2.stop();
+      }
+    }, _callee2);
+  }));
+  return _handleClick.apply(this, arguments);
+}
+breedSelect.addEventListener('click', breedInfo);
+function breedInfo(_x2) {
+  return _breedInfo.apply(this, arguments);
+}
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
  */
@@ -12385,43 +12425,38 @@ function handleClick(_x) {
  *   you delete that favourite using the API, giving this function "toggle" functionality.
  * - You can call this function by clicking on the heart at the top right of any image.
  */
-function _handleClick() {
-  _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(event) {
-    var breedId, imgUrl, response, jsonData, i, imgEl, divEl;
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) switch (_context2.prev = _context2.next) {
+function _breedInfo() {
+  _breedInfo = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(event) {
+    var response, jsonData, breedId, i, pEl;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
         case 0:
-          breedId = event.target.value;
-          imgUrl = ''; //  console.log(breedId)
-          _context2.next = 4;
-          return fetch("https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10"));
-        case 4:
-          response = _context2.sent;
-          _context2.next = 7;
+          _context3.next = 2;
+          return fetch('https://api.thecatapi.com/v1/breeds');
+        case 2:
+          response = _context3.sent;
+          _context3.next = 5;
           return response.json();
-        case 7:
-          jsonData = _context2.sent;
-          // console.log(jsonData)
+        case 5:
+          jsonData = _context3.sent;
+          breedId = event.target.value;
           for (i = 0; i < jsonData.length; i++) {
-            imgUrl = jsonData[i].url;
-            imgEl = document.createElement('img');
-            divEl = document.createElement('div');
-            divEl.setAttribute('class', 'img-wrapper carousel-item');
-            imgEl.setAttribute('class', 'carousel-item card');
-            imgEl.setAttribute('src', imgUrl);
-            divEl.appendChild(imgEl);
-            carouselInner.prepend(divEl);
-            //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
+            if (breedId == jsonData[i].id) {
+              pEl = document.createElement('p');
+              pEl.textContent = "".concat(jsonData[i].description);
+              infoDump.append(pEl);
+            }
           }
-        case 9:
+          //It works, but it adds it on every selection, and doesnt overwrite anything.
+        case 8:
         case "end":
-          return _context2.stop();
+          return _context3.stop();
       }
-    }, _callee2);
+    }, _callee3);
   }));
-  return _handleClick.apply(this, arguments);
+  return _breedInfo.apply(this, arguments);
 }
-function favourite(_x2) {
+function favourite(_x3) {
   return _favourite.apply(this, arguments);
 }
 /**
@@ -12441,14 +12476,14 @@ function favourite(_x2) {
  *   your code should account for this.
  */
 function _favourite() {
-  _favourite = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(imgId) {
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-      while (1) switch (_context3.prev = _context3.next) {
+  _favourite = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(imgId) {
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
         case 0:
         case "end":
-          return _context3.stop();
+          return _context4.stop();
       }
-    }, _callee3);
+    }, _callee4);
   }));
   return _favourite.apply(this, arguments);
 }
@@ -12477,7 +12512,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49386" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51474" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

@@ -77,8 +77,24 @@ breedSelect.addEventListener('click', handleClick);
     carouselInner.prepend(divEl);
    //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
   }
-  
 }
+
+breedSelect.addEventListener('click', breedInfo);
+
+async function breedInfo(event) {
+  const response = await fetch('https://api.thecatapi.com/v1/breeds');
+  const jsonData = await response.json();
+  let breedId = event.target.value;
+  for (let i=0; i<jsonData.length; i++){
+    if(breedId ==jsonData[i].id){
+      let pEl = document.createElement('p');
+      pEl.textContent = `${jsonData[i].description}`;
+      infoDump.append(pEl);
+    }
+  }
+  //It works, but it adds it on every selection, and doesnt overwrite anything.
+}
+
 
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
