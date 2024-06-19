@@ -22,7 +22,7 @@ const API_KEY = 'live_v5shdOvNFnkRtRk9QXMloW2eTzvASYlqXLpKfFQtU9WgZW58y7Dku0yJH2
  * This function should execute immediately.
  */
 async function initialLoad() {
-  let fragment = document.createDocumentFragment();
+  
   let id = '';
   let name= '';
   const response = await fetch('https://api.thecatapi.com/v1/breeds');
@@ -33,12 +33,10 @@ async function initialLoad() {
     let option= document.createElement('option');
     option.setAttribute('value',id);
     option.textContent = `${name}`;
-    fragment.appendChild(option);
-    console.log(id, name, option)
+    breedSelect.appendChild(option);
+    // console.log(id, name, option)
   }
-  console.log(fragment)
-  console.log(jsonData)
-  return breedSelect.appendChild(fragment)
+  // console.log(jsonData)
 }
 initialLoad();
 
@@ -59,9 +57,10 @@ initialLoad();
 
 breedSelect.addEventListener('click', handleClick);
 
- async function handleClick() {
+ async function handleClick(event) {
   const response = await fetch('https://api.thecatapi.com/v1/breeds');
   const jsonData = await response.json();
+ 
 }
 
 /**

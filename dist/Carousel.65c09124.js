@@ -12212,20 +12212,19 @@ function initialLoad() {
 }
 function _initialLoad() {
   _initialLoad = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var fragment, id, name, response, jsonData, i, option;
+    var id, name, response, jsonData, i, option;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          fragment = document.createDocumentFragment();
           id = '';
           name = '';
-          _context.next = 5;
+          _context.next = 4;
           return fetch('https://api.thecatapi.com/v1/breeds');
-        case 5:
+        case 4:
           response = _context.sent;
-          _context.next = 8;
+          _context.next = 7;
           return response.json();
-        case 8:
+        case 7:
           jsonData = _context.sent;
           for (i = 0; i < jsonData.length; i++) {
             id = jsonData[i].id;
@@ -12233,13 +12232,11 @@ function _initialLoad() {
             option = document.createElement('option');
             option.setAttribute('value', id);
             option.textContent = "".concat(name);
-            fragment.appendChild(option);
-            console.log(id, name, option);
+            breedSelect.appendChild(option);
+            // console.log(id, name, option)
           }
-          console.log(fragment);
-          console.log(jsonData);
-          return _context.abrupt("return", breedSelect.appendChild(fragment));
-        case 13:
+          // console.log(jsonData)
+        case 9:
         case "end":
           return _context.stop();
       }
@@ -12265,7 +12262,7 @@ initialLoad();
  */
 
 breedSelect.addEventListener('click', handleClick);
-function handleClick() {
+function handleClick(_x) {
   return _handleClick.apply(this, arguments);
 }
 /**
@@ -12318,7 +12315,7 @@ function handleClick() {
  * - You can call this function by clicking on the heart at the top right of any image.
  */
 function _handleClick() {
-  _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+  _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(event) {
     var response, jsonData;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
@@ -12339,7 +12336,7 @@ function _handleClick() {
   }));
   return _handleClick.apply(this, arguments);
 }
-function favourite(_x) {
+function favourite(_x2) {
   return _favourite.apply(this, arguments);
 }
 /**
@@ -12464,7 +12461,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53029" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58104" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
