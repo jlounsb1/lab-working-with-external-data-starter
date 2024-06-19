@@ -12235,8 +12235,8 @@ function _initialLoad() {
             breedSelect.appendChild(option);
             // console.log(id, name, option)
           }
-          // console.log(jsonData)
-        case 9:
+          console.log(jsonData);
+        case 10:
         case "end":
           return _context.stop();
       }
@@ -12262,6 +12262,7 @@ initialLoad();
  */
 
 breedSelect.addEventListener('click', handleClick);
+//I want to get the even listener to select just the breed id so I can get that into a variable, then request it in my api pull
 function handleClick(_x) {
   return _handleClick.apply(this, arguments);
 }
@@ -12316,19 +12317,22 @@ function handleClick(_x) {
  */
 function _handleClick() {
   _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(event) {
-    var response, jsonData;
+    var breedId, response, jsonData;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          _context2.next = 2;
-          return fetch('https://api.thecatapi.com/v1/breeds');
-        case 2:
+          breedId = event.target.value;
+          console.log(breedId);
+          _context2.next = 4;
+          return fetch("https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId));
+        case 4:
           response = _context2.sent;
-          _context2.next = 5;
+          _context2.next = 7;
           return response.json();
-        case 5:
+        case 7:
           jsonData = _context2.sent;
-        case 6:
+          console.log(jsonData);
+        case 9:
         case "end":
           return _context2.stop();
       }
@@ -12461,7 +12465,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58104" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60322" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

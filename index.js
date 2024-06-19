@@ -36,7 +36,7 @@ async function initialLoad() {
     breedSelect.appendChild(option);
     // console.log(id, name, option)
   }
-  // console.log(jsonData)
+  console.log(jsonData)
 }
 initialLoad();
 
@@ -56,11 +56,14 @@ initialLoad();
  */
 
 breedSelect.addEventListener('click', handleClick);
-
+//I want to get the even listener to select just the breed id so I can get that into a variable, then request it in my api pull
  async function handleClick(event) {
-  const response = await fetch('https://api.thecatapi.com/v1/breeds');
+ const breedId = event.target.value;
+ console.log(breedId)
+  const response = await fetch(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}`);
   const jsonData = await response.json();
- 
+  console.log(jsonData)
+  
 }
 
 /**
