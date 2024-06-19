@@ -60,7 +60,7 @@ breedSelect.addEventListener('click', handleClick);
  async function handleClick(event) {
  const breedId = event.target.value;
  console.log(breedId)
-  const response = await fetch(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}`);
+  const response = await fetch(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}&limit=10`);
   const jsonData = await response.json();
   console.log(jsonData)
   

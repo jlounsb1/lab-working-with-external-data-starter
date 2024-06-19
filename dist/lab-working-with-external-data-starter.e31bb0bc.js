@@ -12393,7 +12393,7 @@ function _handleClick() {
           breedId = event.target.value;
           console.log(breedId);
           _context2.next = 4;
-          return fetch("https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId));
+          return fetch("https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10"));
         case 4:
           response = _context2.sent;
           _context2.next = 7;
@@ -12465,7 +12465,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60322" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65259" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
