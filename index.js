@@ -75,8 +75,10 @@ breedSelect.addEventListener('click', handleClick);
     imgEl.setAttribute('src',imgUrl);
     divEl.appendChild(imgEl)
     carouselInner.prepend(divEl);
+    
    //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
   }
+
 }
 
 breedSelect.addEventListener('click', breedInfo);
@@ -90,6 +92,7 @@ async function breedInfo(event) {
       let pEl = document.createElement('p');
       pEl.textContent = `${jsonData[i].description}`;
       infoDump.append(pEl);
+     
     }
   }
   //It works, but it adds it on every selection, and doesnt overwrite anything.

@@ -12293,6 +12293,7 @@ function _handleClick() {
             imgEl.setAttribute('src', imgUrl);
             divEl.appendChild(imgEl);
             carouselInner.prepend(divEl);
+
             //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
           }
         case 9:
@@ -12512,7 +12513,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51474" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52411" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
