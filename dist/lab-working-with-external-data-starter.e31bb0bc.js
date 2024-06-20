@@ -12329,6 +12329,7 @@ function _handleClick() {
           return response.json();
         case 8:
           jsonData = _context2.sent;
+          Carousel.start();
           console.log(jsonData);
           for (i = 0; i < jsonData.length; i++) {
             imgUrl = jsonData[i].url;
@@ -12338,7 +12339,7 @@ function _handleClick() {
 
             //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
           }
-        case 11:
+        case 12:
         case "end":
           return _context2.stop();
       }
@@ -12420,7 +12421,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50309" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50967" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

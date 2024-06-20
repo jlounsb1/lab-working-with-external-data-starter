@@ -47,6 +47,7 @@ Carousel.clear();
 //  console.log(breedId)
   const response = await fetch(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}&limit=10`);
   const jsonData = await response.json();
+  Carousel.start()
 console.log(jsonData)
   for(let i=0; i<jsonData.length; i++) {
     imgUrl = jsonData[i].url;
