@@ -12261,16 +12261,6 @@ function _initialLoad() {
               }
             }, _callee);
           }))();
-          // console.log(jsonData)
-          // axios.interceptors.response.use((response)=>{
-          //   progressVal = 
-          //   progressBar.style.width = `${progressVal}`
-          //   return response
-          // }, 
-          //   (error) =>{
-
-          //     throw error
-          //   })
         case 9:
         case "end":
           return _context2.stop();
@@ -12286,27 +12276,24 @@ function handleClick(_x) {
 }
 function _handleClick() {
   _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(event) {
-    var breedId, imgUrl, responseAxios, i, carouselItem;
+    var breedId, imgUrl, imgId, responseAxios, i, carouselItem;
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
           Carousel.clear();
           breedId = event.target.value;
           imgUrl = '';
-          _context4.next = 5;
+          imgId = '';
+          _context4.next = 6;
           return _axios.default.get("https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10"));
-        case 5:
+        case 6:
           responseAxios = _context4.sent;
-          // const jsonData = await response.json();
-          // console.log(response)
           for (i = 0; i < responseAxios.data.length; i++) {
             imgUrl = responseAxios.data[i].url;
-            carouselItem = Carousel.createCarouselItem(imgUrl, breedId, responseAxios.data[i].id);
+            imgId = responseAxios.data[i].id;
+            carouselItem = Carousel.createCarouselItem(imgUrl, breedId, imgId);
             carouselInner.appendChild(carouselItem);
-            console.log(responseAxios.data[i].id);
-            //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
           }
-          // console.log(responseAxios)
           Carousel.start();
           _axios.default.interceptors.response.use(function (response) {
             response.config.metadata.endTime = new Date().getTime();
@@ -12338,7 +12325,7 @@ function _handleClick() {
               }
             }, _callee3);
           }))();
-        case 10:
+        case 11:
         case "end":
           return _context4.stop();
       }
@@ -12363,6 +12350,7 @@ function breedInfo(_x2) {
  *   you delete that favourite using the API, giving this function "toggle" functionality.
  * - You can call this function by clicking on the heart at the top right of any image.
  */
+//when i hit the favorite button it is giving me a 400 axios error(bad request)
 function _breedInfo() {
   _breedInfo = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(event) {
     var responseAxios, breedId, i;
@@ -12373,7 +12361,6 @@ function _breedInfo() {
           return _axios.default.get('https://api.thecatapi.com/v1/breeds');
         case 2:
           responseAxios = _context6.sent;
-          // const jsonData = await response.json();
           breedId = event.target.value;
           for (i = 0; i < responseAxios.data.length; i++) {
             if (breedId == responseAxios.data[i].id) {
@@ -12458,15 +12445,6 @@ getFavouritesBtn.addEventListener('click', getFavourites);
 function getFavourites() {
   return _getFavourites.apply(this, arguments);
 }
-/**
- * 9. Test your favourite() function by creating a getFavourites() function.
- * - Use Axios to get all of your favourites from the cat API.
- * - Clear the carousel and display your favourites when the button is clicked.
- *  - You will have to bind this event listener to getFavouritesBtn yourself.
- *  - Hint: you already have all of the logic built for building a carousel.
- *    If that isn't in its own function, maybe it should be so you don't have to
- *    repeat yourself in this section.
- */
 function _getFavourites() {
   _getFavourites = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
     var getFavourites;
@@ -12587,7 +12565,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50626" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50975" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

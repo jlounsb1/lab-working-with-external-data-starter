@@ -59,19 +59,7 @@ axios.interceptors.response.use(
     const { data, durationInMS } = await axios(url);
     console.log(`Request took ${durationInMS} milliseconds.`);
     progressBar.style.width='0%'
-    
 })();
-  // console.log(jsonData)
-// axios.interceptors.response.use((response)=>{
-//   progressVal = 
-//   progressBar.style.width = `${progressVal}`
-//   return response
-// }, 
-//   (error) =>{
-
-//     throw error
-//   })
-
 }
 initialLoad();
 
@@ -83,18 +71,15 @@ async function handleClick(event) {
   Carousel.clear();
  const breedId = event.target.value;
  let imgUrl = '';
+ let imgId = ''
   const responseAxios = await axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}&limit=10`);
-  // const jsonData = await response.json();
-  // console.log(response)
   for(let i=0; i<responseAxios.data.length; i++) {
     imgUrl = responseAxios.data[i].url;
-    
-    let carouselItem = Carousel.createCarouselItem(imgUrl, breedId, responseAxios.data[i].id);
+    imgId = responseAxios.data[i].id
+    let carouselItem = Carousel.createCarouselItem(imgUrl, breedId, imgId);
+   
     carouselInner.appendChild(carouselItem);
-    console.log(responseAxios.data[i].id)
-   //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
   }
-  // console.log(responseAxios)
   Carousel.start()
   axios.interceptors.response.use(
     (response) => {
@@ -125,7 +110,6 @@ const description = document.getElementById('description');
 async function breedInfo(event) {
   
   const responseAxios = await axios.get('https://api.thecatapi.com/v1/breeds');
-  // const jsonData = await response.json();
   let breedId = event.target.value;
   for (let i=0; i<responseAxios.data.length; i++){
     if(breedId ==responseAxios.data[i].id){
@@ -163,18 +147,9 @@ axios.interceptors.response.use(
 //added axios intercepter logic to log timings. Largely copied from lesson, but api path adjusted and some logs deleted.
 //I am not confident with the progress bar, but it was the best I can do.
 
-/*
- * 8. To practice posting data, we'll create a system to "favourite" certain images.
- * - The skeleton of this function has already been created for you.
- * - This function is used within Carousel.js to add the event listener as items are created.
- *  - This is why we use the export keyword for this function.
- * - Post to the cat API's favourites endpoint with the given ID.
- * - The API documentation gives examples of this functionality using fetch(); use Axios!
- * - Add additional logic to this function such that if the image is already favourited,
- *   you delete that favourite using the API, giving this function "toggle" functionality.
- * - You can call this function by clicking on the heart at the top right of any image.
- */
+//when i hit the favorite button it is giving me a 400 axios error(bad request). I tried to append an imgId to the images when creating the carousel but I couldn't get it to take.
 export async function favourite(imgId) {
+
   let rawBody = JSON.stringify({
     'image_id': `${imgId}`,
     'sub_id':'user-123'
@@ -202,14 +177,3 @@ const getFavourites = await axios('https://api.thecatapi.com/v1/favourites',
 console.log(getFavourites);
 progressBar.style.width='0%'
 }
-
-/**
- * 9. Test your favourite() function by creating a getFavourites() function.
- * - Use Axios to get all of your favourites from the cat API.
- * - Clear the carousel and display your favourites when the button is clicked.
- *  - You will have to bind this event listener to getFavouritesBtn yourself.
- *  - Hint: you already have all of the logic built for building a carousel.
- *    If that isn't in its own function, maybe it should be so you don't have to
- *    repeat yourself in this section.
- */
-
