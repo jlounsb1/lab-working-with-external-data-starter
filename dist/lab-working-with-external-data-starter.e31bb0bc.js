@@ -12281,68 +12281,35 @@ function initialLoad() {
   return _initialLoad.apply(this, arguments);
 }
 function _initialLoad() {
-  _initialLoad = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var id, name, response, i, option;
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) switch (_context.prev = _context.next) {
+  _initialLoad = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+    var id, name, responseAxios, i, option;
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
         case 0:
           id = '';
           name = '';
-          _context.next = 4;
+          _context2.next = 4;
           return _axios.default.get('https://api.thecatapi.com/v1/breeds');
         case 4:
-          response = _context.sent;
+          responseAxios = _context2.sent;
           // console.log(response)
 
           //const jsonData = await response.json();
-          for (i = 0; i < response.data.length; i++) {
-            id = response.data[i].id;
-            name = response.data[i].name;
+          for (i = 0; i < responseAxios.data.length; i++) {
+            id = responseAxios.data[i].id;
+            name = responseAxios.data[i].name;
             option = document.createElement('option');
             option.setAttribute('value', id);
             option.textContent = "".concat(name);
             breedSelect.appendChild(option);
             // console.log(id, name, option)
           }
-          // console.log(jsonData)
-        case 6:
-        case "end":
-          return _context.stop();
-      }
-    }, _callee);
-  }));
-  return _initialLoad.apply(this, arguments);
-}
-initialLoad();
-breedSelect.addEventListener('click', handleClick);
-function handleClick(_x) {
-  return _handleClick.apply(this, arguments);
-}
-function _handleClick() {
-  _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(event) {
-    var breedId, imgUrl, response, i, imgEl, divEl;
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-      while (1) switch (_context3.prev = _context3.next) {
-        case 0:
-          breedId = event.target.value;
-          imgUrl = '';
-          _context3.next = 4;
-          return _axios.default.get("https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10"));
-        case 4:
-          response = _context3.sent;
-          // const jsonData = await response.json();
-          // console.log(response)
-          for (i = 0; i < response.data.length; i++) {
-            imgUrl = response.data[i].url;
-            imgEl = document.createElement('img');
-            divEl = document.createElement('div');
-            divEl.setAttribute('class', 'img-wrapper carousel-item');
-            imgEl.setAttribute('class', 'carousel-item card');
-            imgEl.setAttribute('src', imgUrl);
-            divEl.appendChild(imgEl);
-            carouselInner.prepend(divEl);
-            //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
-          }
+          _axios.default.interceptors.request.use(function (request) {
+            request.metadata = request.metadata || {};
+            request.metadata.startTime = new Date().getTime();
+            progressBar.style.width = "100%";
+            return request;
+          });
           _axios.default.interceptors.response.use(function (response) {
             response.config.metadata.endTime = new Date().getTime();
             response.durationInMS = response.config.metadata.endTime - response.config.metadata.startTime;
@@ -12352,30 +12319,110 @@ function _handleClick() {
             error.durationInMS = error.config.metadata.endTime - error.config.metadata.startTime;
             throw error;
           });
-          _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+          _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
             var url, _yield$axios, data, durationInMS;
-            return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-              while (1) switch (_context2.prev = _context2.next) {
+            return _regeneratorRuntime().wrap(function _callee$(_context) {
+              while (1) switch (_context.prev = _context.next) {
                 case 0:
-                  url = "https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10");
-                  _context2.next = 3;
+                  url = 'https://api.thecatapi.com/v1/breeds';
+                  _context.next = 3;
                   return (0, _axios.default)(url);
                 case 3:
-                  _yield$axios = _context2.sent;
+                  _yield$axios = _context.sent;
                   data = _yield$axios.data;
                   durationInMS = _yield$axios.durationInMS;
                   console.log("Request took ".concat(durationInMS, " milliseconds."));
-                case 7:
+                  progressBar.style.width = '0%';
+                case 8:
                 case "end":
-                  return _context2.stop();
+                  return _context.stop();
               }
-            }, _callee2);
+            }, _callee);
           }))();
-        case 8:
+          // console.log(jsonData)
+          // axios.interceptors.response.use((response)=>{
+          //   progressVal = 
+          //   progressBar.style.width = `${progressVal}`
+          //   return response
+          // }, 
+          //   (error) =>{
+
+          //     throw error
+          //   })
+        case 9:
         case "end":
-          return _context3.stop();
+          return _context2.stop();
       }
-    }, _callee3);
+    }, _callee2);
+  }));
+  return _initialLoad.apply(this, arguments);
+}
+initialLoad();
+breedSelect.addEventListener('click', handleClick);
+function handleClick(_x) {
+  return _handleClick.apply(this, arguments);
+}
+function _handleClick() {
+  _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(event) {
+    var breedId, imgUrl, responseAxios, i, imgEl, divEl;
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
+        case 0:
+          breedId = event.target.value;
+          imgUrl = '';
+          _context4.next = 4;
+          return _axios.default.get("https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10"));
+        case 4:
+          responseAxios = _context4.sent;
+          // const jsonData = await response.json();
+          // console.log(response)
+          for (i = 0; i < responseAxios.data.length; i++) {
+            imgUrl = responseAxios.data[i].url;
+            imgEl = document.createElement('img');
+            divEl = document.createElement('div');
+            divEl.setAttribute('class', 'img-wrapper carousel-item');
+            imgEl.setAttribute('class', 'carousel-item card');
+            imgEl.setAttribute('src', imgUrl);
+            divEl.appendChild(imgEl);
+            carouselInner.prepend(divEl);
+            //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
+          }
+          console.log(responseAxios);
+          _axios.default.interceptors.response.use(function (response) {
+            response.config.metadata.endTime = new Date().getTime();
+            response.durationInMS = response.config.metadata.endTime - response.config.metadata.startTime;
+            progressBar.style.width = "100%";
+            return response;
+          }, function (error) {
+            error.config.metadata.endTime = new Date().getTime();
+            error.durationInMS = error.config.metadata.endTime - error.config.metadata.startTime;
+            throw error;
+          });
+          _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+            var url, _yield$axios2, data, durationInMS;
+            return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+              while (1) switch (_context3.prev = _context3.next) {
+                case 0:
+                  url = "https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10");
+                  _context3.next = 3;
+                  return (0, _axios.default)(url);
+                case 3:
+                  _yield$axios2 = _context3.sent;
+                  data = _yield$axios2.data;
+                  durationInMS = _yield$axios2.durationInMS;
+                  console.log("Request took ".concat(durationInMS, " milliseconds."));
+                  progressBar.style.width = '0%';
+                case 8:
+                case "end":
+                  return _context3.stop();
+              }
+            }, _callee3);
+          }))();
+        case 9:
+        case "end":
+          return _context4.stop();
+      }
+    }, _callee4);
   }));
   return _handleClick.apply(this, arguments);
 }
@@ -12384,21 +12431,7 @@ var description = document.getElementById('description');
 function breedInfo(_x2) {
   return _breedInfo.apply(this, arguments);
 } //added axios intercepter logic to log timings. Largely copied from lesson, but api path adjusted and some logs deleted.
-/**
- * 6. Next, we'll create a progress bar to indicate the request is in progress.
- * - The progressBar element has already been created for you.
- *  - You need only to modify its "width" style property to align with the request progress.
- * - In your request interceptor, set the width of the progressBar element to 0%.
- *  - This is to reset the progress with each request.
- * - Research the axios onDownloadProgress config option.
- * - Create a function "updateProgress" that receives a ProgressEvent object.
- *  - Pass this function to the axios onDownloadProgress config option in your event handler.
- * - console.log your ProgressEvent object within updateProgess, and familiarize yourself with its structure.
- *  - Update the progress of the request using the properties you are given.
- * - Note that we are not downloading a lot of data, so onDownloadProgress will likely only fire
- *   once or twice per request to this API. This is still a concept worth familiarizing yourself
- *   with for future projects.
- */
+//I am not confident with the progress bar, but it was the best I can do.
 /**
  * 7. As a final element of progress indication, add the following to your axios interceptors:
  * - In your request interceptor, set the body element's cursor style to "progress."
@@ -12416,25 +12449,26 @@ function breedInfo(_x2) {
  * - You can call this function by clicking on the heart at the top right of any image.
  */
 function _breedInfo() {
-  _breedInfo = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(event) {
-    var response, breedId, i;
-    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-      while (1) switch (_context5.prev = _context5.next) {
+  _breedInfo = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(event) {
+    var responseAxios, breedId, i;
+    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+      while (1) switch (_context6.prev = _context6.next) {
         case 0:
-          _context5.next = 2;
+          _context6.next = 2;
           return _axios.default.get('https://api.thecatapi.com/v1/breeds');
         case 2:
-          response = _context5.sent;
+          responseAxios = _context6.sent;
           // const jsonData = await response.json();
           breedId = event.target.value;
-          for (i = 0; i < response.data.length; i++) {
-            if (breedId == response.data[i].id) {
-              description.textContent = "".concat(response.data[i].description);
+          for (i = 0; i < responseAxios.data.length; i++) {
+            if (breedId == responseAxios.data[i].id) {
+              description.textContent = "".concat(responseAxios.data[i].description);
             }
           }
           _axios.default.interceptors.request.use(function (request) {
             request.metadata = request.metadata || {};
             request.metadata.startTime = new Date().getTime();
+            progressBar.style.width = "100%";
             return request;
           });
           _axios.default.interceptors.response.use(function (response) {
@@ -12446,30 +12480,31 @@ function _breedInfo() {
             error.durationInMS = error.config.metadata.endTime - error.config.metadata.startTime;
             throw error;
           });
-          _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-            var url, _yield$axios2, data, durationInMS;
-            return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-              while (1) switch (_context4.prev = _context4.next) {
+          _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+            var url, _yield$axios3, data, durationInMS;
+            return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+              while (1) switch (_context5.prev = _context5.next) {
                 case 0:
                   url = 'https://api.thecatapi.com/v1/breeds';
-                  _context4.next = 3;
+                  _context5.next = 3;
                   return (0, _axios.default)(url);
                 case 3:
-                  _yield$axios2 = _context4.sent;
-                  data = _yield$axios2.data;
-                  durationInMS = _yield$axios2.durationInMS;
+                  _yield$axios3 = _context5.sent;
+                  data = _yield$axios3.data;
+                  durationInMS = _yield$axios3.durationInMS;
                   console.log("Request took ".concat(durationInMS, " milliseconds."));
-                case 7:
+                  progressBar.style.width = '0%';
+                case 8:
                 case "end":
-                  return _context4.stop();
+                  return _context5.stop();
               }
-            }, _callee4);
+            }, _callee5);
           }))();
         case 8:
         case "end":
-          return _context5.stop();
+          return _context6.stop();
       }
-    }, _callee5);
+    }, _callee6);
   }));
   return _breedInfo.apply(this, arguments);
 }
@@ -12493,14 +12528,14 @@ function favourite(_x3) {
  *   your code should account for this.
  */
 function _favourite() {
-  _favourite = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(imgId) {
-    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-      while (1) switch (_context6.prev = _context6.next) {
+  _favourite = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(imgId) {
+    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+      while (1) switch (_context7.prev = _context7.next) {
         case 0:
         case "end":
-          return _context6.stop();
+          return _context7.stop();
       }
-    }, _callee6);
+    }, _callee7);
   }));
   return _favourite.apply(this, arguments);
 }
@@ -12529,7 +12564,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61537" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62312" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

@@ -27,21 +27,57 @@ async function initialLoad() {
   
   let id = '';
   let name= '';
-  const response = await axios.get('https://api.thecatapi.com/v1/breeds');
+  const responseAxios = await axios.get('https://api.thecatapi.com/v1/breeds');
   // console.log(response)
   
   //const jsonData = await response.json();
-  for(let i=0; i<response.data.length; i++) {
-    id = response.data[i].id;
-    name= response.data[i].name;
+  for(let i=0; i<responseAxios.data.length; i++) {
+    id = responseAxios.data[i].id;
+    name= responseAxios.data[i].name;
     let option= document.createElement('option');
     option.setAttribute('value',id);
     option.textContent = `${name}`;
     breedSelect.appendChild(option);
     // console.log(id, name, option)
   }
+  axios.interceptors.request.use(request => {
+    request.metadata = request.metadata || {};
+    request.metadata.startTime = new Date().getTime();
+    progressBar.style.width = `100%`;
+    return request;
+});
+
+axios.interceptors.response.use(
+    (response) => {
+        response.config.metadata.endTime = new Date().getTime();
+        response.durationInMS = response.config.metadata.endTime - response.config.metadata.startTime;
+        
+        return response;
+    },
+    (error) => {
+        error.config.metadata.endTime = new Date().getTime();
+        error.durationInMS = error.config.metadata.endTime - error.config.metadata.startTime;
+        throw error;
+});
+
+(async () => {
+    const url = 'https://api.thecatapi.com/v1/breeds';
+
+    const { data, durationInMS } = await axios(url);
+    console.log(`Request took ${durationInMS} milliseconds.`);
+    progressBar.style.width='0%'
+    
+})();
   // console.log(jsonData)
-  
+// axios.interceptors.response.use((response)=>{
+//   progressVal = 
+//   progressBar.style.width = `${progressVal}`
+//   return response
+// }, 
+//   (error) =>{
+
+//     throw error
+//   })
 
 }
 initialLoad();
@@ -53,11 +89,11 @@ breedSelect.addEventListener('click', handleClick);
 async function handleClick(event) {
  const breedId = event.target.value;
  let imgUrl = '';
-  const response = await axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}&limit=10`);
+  const responseAxios = await axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}&limit=10`);
   // const jsonData = await response.json();
   // console.log(response)
-  for(let i=0; i<response.data.length; i++) {
-    imgUrl = response.data[i].url;
+  for(let i=0; i<responseAxios.data.length; i++) {
+    imgUrl = responseAxios.data[i].url;
     let imgEl = document.createElement('img');
     let divEl = document.createElement('div');
     divEl.setAttribute('class', 'img-wrapper carousel-item')
@@ -67,10 +103,12 @@ async function handleClick(event) {
     carouselInner.prepend(divEl);
    //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
   }
+  console.log(responseAxios)
   axios.interceptors.response.use(
     (response) => {
         response.config.metadata.endTime = new Date().getTime();
         response.durationInMS = response.config.metadata.endTime - response.config.metadata.startTime;
+        progressBar.style.width = `100%`;
         return response;
     },
     (error) => {
@@ -84,25 +122,28 @@ async function handleClick(event) {
 
     const { data, durationInMS } = await axios(url);
     console.log(`Request took ${durationInMS} milliseconds.`);
-    
+    progressBar.style.width='0%'
 })();
+
 }
 
 breedSelect.addEventListener('click', breedInfo);
 const description = document.getElementById('description');
 
 async function breedInfo(event) {
-  const response = await axios.get('https://api.thecatapi.com/v1/breeds');
+  
+  const responseAxios = await axios.get('https://api.thecatapi.com/v1/breeds');
   // const jsonData = await response.json();
   let breedId = event.target.value;
-  for (let i=0; i<response.data.length; i++){
-    if(breedId ==response.data[i].id){
-      description.textContent = `${response.data[i].description}`;
+  for (let i=0; i<responseAxios.data.length; i++){
+    if(breedId ==responseAxios.data[i].id){
+      description.textContent = `${responseAxios.data[i].description}`;
     }
   }
   axios.interceptors.request.use(request => {
     request.metadata = request.metadata || {};
     request.metadata.startTime = new Date().getTime();
+    progressBar.style.width = `100%`;
     return request;
 });
 
@@ -123,27 +164,15 @@ axios.interceptors.response.use(
 
     const { data, durationInMS } = await axios(url);
     console.log(`Request took ${durationInMS} milliseconds.`);
-    
+    progressBar.style.width='0%'
 })();
+
 }
 //added axios intercepter logic to log timings. Largely copied from lesson, but api path adjusted and some logs deleted.
+//I am not confident with the progress bar, but it was the best I can do.
 
 
-/**
- * 6. Next, we'll create a progress bar to indicate the request is in progress.
- * - The progressBar element has already been created for you.
- *  - You need only to modify its "width" style property to align with the request progress.
- * - In your request interceptor, set the width of the progressBar element to 0%.
- *  - This is to reset the progress with each request.
- * - Research the axios onDownloadProgress config option.
- * - Create a function "updateProgress" that receives a ProgressEvent object.
- *  - Pass this function to the axios onDownloadProgress config option in your event handler.
- * - console.log your ProgressEvent object within updateProgess, and familiarize yourself with its structure.
- *  - Update the progress of the request using the properties you are given.
- * - Note that we are not downloading a lot of data, so onDownloadProgress will likely only fire
- *   once or twice per request to this API. This is still a concept worth familiarizing yourself
- *   with for future projects.
- */
+
 
 /**
  * 7. As a final element of progress indication, add the following to your axios interceptors:
