@@ -81,3 +81,6 @@ async function breedInfo(event) {
 export async function favourite(imgId) {
   // your code here
 }
+
+
+// please look at the axios branch on github for the rest of this lab. thank you.
