@@ -12286,7 +12286,7 @@ function handleClick(_x) {
 }
 function _handleClick() {
   _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(event) {
-    var breedId, imgUrl, responseAxios, i, imgEl, divEl;
+    var breedId, imgUrl, responseAxios, i, carouselItem;
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
@@ -12301,13 +12301,9 @@ function _handleClick() {
           // console.log(response)
           for (i = 0; i < responseAxios.data.length; i++) {
             imgUrl = responseAxios.data[i].url;
-            imgEl = document.createElement('img');
-            divEl = document.createElement('div');
-            divEl.setAttribute('class', 'img-wrapper carousel-item');
-            imgEl.setAttribute('class', 'carousel-item card');
-            imgEl.setAttribute('src', imgUrl);
-            divEl.appendChild(imgEl);
-            carouselInner.prepend(divEl);
+            carouselItem = Carousel.createCarouselItem(imgUrl, breedId, responseAxios.data[i].url);
+            carouselInner.appendChild(carouselItem);
+
             //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
           }
           console.log(responseAxios);
@@ -12590,7 +12586,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64948" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49441" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

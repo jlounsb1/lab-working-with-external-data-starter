@@ -88,13 +88,9 @@ async function handleClick(event) {
   // console.log(response)
   for(let i=0; i<responseAxios.data.length; i++) {
     imgUrl = responseAxios.data[i].url;
-    let imgEl = document.createElement('img');
-    let divEl = document.createElement('div');
-    divEl.setAttribute('class', 'img-wrapper carousel-item')
-    imgEl.setAttribute('class', 'carousel-item card')
-    imgEl.setAttribute('src',imgUrl);
-    divEl.appendChild(imgEl)
-    carouselInner.prepend(divEl);
+    let carouselItem = Carousel.createCarouselItem(imgUrl, breedId, responseAxios.data[i].url);
+    carouselInner.appendChild(carouselItem);
+
    //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
   }
   console.log(responseAxios)
