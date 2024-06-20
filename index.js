@@ -15,14 +15,7 @@ const carouselInner = document.getElementById('carouselInner');
 // Step 0: Store your API key here for reference and easy access.
 const API_KEY = 'live_v5shdOvNFnkRtRk9QXMloW2eTzvASYlqXLpKfFQtU9WgZW58y7Dku0yJH2RCfTPh';
 
-/**
- * 1. Create an async function "initialLoad" that does the following:
- * - Retrieve a list of breeds from the cat API using fetch().
- * - Create new <options> for each of these breeds, and append them to breedSelect.
- *  - Each option should have a value attribute equal to the id of the breed.
- *  - Each option should display text equal to the name of the breed.
- * This function should execute immediately.
- */
+
 async function initialLoad() {
   
   let id = '';
@@ -87,6 +80,7 @@ initialLoad();
 breedSelect.addEventListener('click', handleClick);
 
 async function handleClick(event) {
+  Carousel.clear();
  const breedId = event.target.value;
  let imgUrl = '';
   const responseAxios = await axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}&limit=10`);
@@ -171,15 +165,7 @@ axios.interceptors.response.use(
 //added axios intercepter logic to log timings. Largely copied from lesson, but api path adjusted and some logs deleted.
 //I am not confident with the progress bar, but it was the best I can do.
 
-
-
-
-/**
- * 7. As a final element of progress indication, add the following to your axios interceptors:
- * - In your request interceptor, set the body element's cursor style to "progress."
- * - In your response interceptor, remove the progress cursor style from the body element.
- */
-/**
+/*
  * 8. To practice posting data, we'll create a system to "favourite" certain images.
  * - The skeleton of this function has already been created for you.
  * - This function is used within Carousel.js to add the event listener as items are created.
@@ -191,7 +177,32 @@ axios.interceptors.response.use(
  * - You can call this function by clicking on the heart at the top right of any image.
  */
 export async function favourite(imgId) {
-  // your code here
+  let rawBody = JSON.stringify({
+    'image_id': `${imgId}`,
+    'sub_id':'user-123'
+  })
+  const newFavorite = await axios(
+    'https://api.thecatapi.com/v1/favourites',
+      {
+        method:'POST',
+        headers: {'x-api-key': `${API_KEY}`},
+        body: rawBody
+      }
+  );
+}
+
+getFavouritesBtn.addEventListener('click', getFavourites);
+
+async function getFavourites() {
+  Carousel.clear();
+const getFavourites = await axios('https://api.thecatapi.com/v1/favourites',
+  {
+    METHOD: 'GET',
+    headers: {'x-api-key': `${API_KEY}`}
+  }
+);
+console.log(getFavourites);
+progressBar.style.width='0%'
 }
 
 /**
@@ -204,10 +215,3 @@ export async function favourite(imgId) {
  *    repeat yourself in this section.
  */
 
-/**
- * 10. Test your site, thoroughly!
- * - What happens when you try to load the Malayan breed?
- *  - If this is working, good job! If not, look for the reason why and fix it!
- * - Test other breeds as well. Not every breed has the same data available, so
- *   your code should account for this.
- */

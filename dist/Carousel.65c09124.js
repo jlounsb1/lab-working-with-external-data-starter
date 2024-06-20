@@ -12199,15 +12199,6 @@ var carouselInner = document.getElementById('carouselInner');
 
 // Step 0: Store your API key here for reference and easy access.
 var API_KEY = 'live_v5shdOvNFnkRtRk9QXMloW2eTzvASYlqXLpKfFQtU9WgZW58y7Dku0yJH2RCfTPh';
-
-/**
- * 1. Create an async function "initialLoad" that does the following:
- * - Retrieve a list of breeds from the cat API using fetch().
- * - Create new <options> for each of these breeds, and append them to breedSelect.
- *  - Each option should have a value attribute equal to the id of the breed.
- *  - Each option should display text equal to the name of the breed.
- * This function should execute immediately.
- */
 function initialLoad() {
   return _initialLoad.apply(this, arguments);
 }
@@ -12299,11 +12290,12 @@ function _handleClick() {
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
+          Carousel.clear();
           breedId = event.target.value;
           imgUrl = '';
-          _context4.next = 4;
+          _context4.next = 5;
           return _axios.default.get("https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10"));
-        case 4:
+        case 5:
           responseAxios = _context4.sent;
           // const jsonData = await response.json();
           // console.log(response)
@@ -12349,7 +12341,7 @@ function _handleClick() {
               }
             }, _callee3);
           }))();
-        case 9:
+        case 10:
         case "end":
           return _context4.stop();
       }
@@ -12363,12 +12355,7 @@ function breedInfo(_x2) {
   return _breedInfo.apply(this, arguments);
 } //added axios intercepter logic to log timings. Largely copied from lesson, but api path adjusted and some logs deleted.
 //I am not confident with the progress bar, but it was the best I can do.
-/**
- * 7. As a final element of progress indication, add the following to your axios interceptors:
- * - In your request interceptor, set the body element's cursor style to "progress."
- * - In your response interceptor, remove the progress cursor style from the body element.
- */
-/**
+/*
  * 8. To practice posting data, we'll create a system to "favourite" certain images.
  * - The skeleton of this function has already been created for you.
  * - This function is used within Carousel.js to add the event listener as items are created.
@@ -12442,6 +12429,38 @@ function _breedInfo() {
 function favourite(_x3) {
   return _favourite.apply(this, arguments);
 }
+function _favourite() {
+  _favourite = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(imgId) {
+    var rawBody, newFavorite;
+    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+      while (1) switch (_context7.prev = _context7.next) {
+        case 0:
+          rawBody = JSON.stringify({
+            'image_id': "".concat(imgId),
+            'sub_id': 'user-123'
+          });
+          _context7.next = 3;
+          return (0, _axios.default)('https://api.thecatapi.com/v1/favourites', {
+            method: 'POST',
+            headers: {
+              'x-api-key': "".concat(API_KEY)
+            },
+            body: rawBody
+          });
+        case 3:
+          newFavorite = _context7.sent;
+        case 4:
+        case "end":
+          return _context7.stop();
+      }
+    }, _callee7);
+  }));
+  return _favourite.apply(this, arguments);
+}
+getFavouritesBtn.addEventListener('click', getFavourites);
+function getFavourites() {
+  return _getFavourites.apply(this, arguments);
+}
 /**
  * 9. Test your favourite() function by creating a getFavourites() function.
  * - Use Axios to get all of your favourites from the cat API.
@@ -12451,24 +12470,31 @@ function favourite(_x3) {
  *    If that isn't in its own function, maybe it should be so you don't have to
  *    repeat yourself in this section.
  */
-/**
- * 10. Test your site, thoroughly!
- * - What happens when you try to load the Malayan breed?
- *  - If this is working, good job! If not, look for the reason why and fix it!
- * - Test other breeds as well. Not every breed has the same data available, so
- *   your code should account for this.
- */
-function _favourite() {
-  _favourite = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(imgId) {
-    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-      while (1) switch (_context7.prev = _context7.next) {
+function _getFavourites() {
+  _getFavourites = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+    var getFavourites;
+    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+      while (1) switch (_context8.prev = _context8.next) {
         case 0:
+          Carousel.clear();
+          _context8.next = 3;
+          return (0, _axios.default)('https://api.thecatapi.com/v1/favourites', {
+            METHOD: 'GET',
+            headers: {
+              'x-api-key': "".concat(API_KEY)
+            }
+          });
+        case 3:
+          getFavourites = _context8.sent;
+          console.log(getFavourites);
+          progressBar.style.width = '0%';
+        case 6:
         case "end":
-          return _context7.stop();
+          return _context8.stop();
       }
-    }, _callee7);
+    }, _callee8);
   }));
-  return _favourite.apply(this, arguments);
+  return _getFavourites.apply(this, arguments);
 }
 },{"./Carousel.js":"Carousel.js","axios":"node_modules/axios/index.js"}],"Carousel.js":[function(require,module,exports) {
 "use strict";
@@ -12564,7 +12590,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62312" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64948" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
