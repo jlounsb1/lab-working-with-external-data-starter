@@ -43,19 +43,16 @@ Carousel.clear();
  async function handleClick(event) {
  const breedId = event.target.value;
  let imgUrl = '';
+ let imgId='';
 //  console.log(breedId)
   const response = await fetch(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}&limit=10`);
   const jsonData = await response.json();
-  // console.log(jsonData)
+console.log(jsonData)
   for(let i=0; i<jsonData.length; i++) {
     imgUrl = jsonData[i].url;
-    let imgEl = document.createElement('img');
-    let divEl = document.createElement('div');
-    divEl.setAttribute('class', 'img-wrapper carousel-item')
-    imgEl.setAttribute('class', 'carousel-item card')
-    imgEl.setAttribute('src',imgUrl);
-    divEl.appendChild(imgEl)
-    carouselInner.prepend(divEl);
+    imgId = jsonData[i].id;
+    let carouselItem = Carousel.createCarouselItem(imgUrl, breedId, imgId);
+    carouselInner.appendChild(carouselItem);
     
    //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
   }

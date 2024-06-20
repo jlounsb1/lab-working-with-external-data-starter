@@ -12268,15 +12268,6 @@ var carouselInner = document.getElementById('carouselInner');
 
 // Step 0: Store your API key here for reference and easy access.
 var API_KEY = 'live_v5shdOvNFnkRtRk9QXMloW2eTzvASYlqXLpKfFQtU9WgZW58y7Dku0yJH2RCfTPh';
-
-/**
- * 1. Create an async function "initialLoad" that does the following:
- * - Retrieve a list of breeds from the cat API using fetch().
- * - Create new <options> for each of these breeds, and append them to breedSelect.
- *  - Each option should have a value attribute equal to the id of the breed.
- *  - Each option should display text equal to the name of the breed.
- * This function should execute immediately.
- */
 function initialLoad() {
   return _initialLoad.apply(this, arguments);
 }
@@ -12315,57 +12306,39 @@ function _initialLoad() {
   return _initialLoad.apply(this, arguments);
 }
 initialLoad();
-
-/**
- * 2. Create an event handler for breedSelect that does the following:
- * - Retrieve information on the selected breed from the cat API using fetch().
- *  - Make sure your request is receiving multiple array items!
- *  - Check the API documentation if you're only getting a single object.
- * - For each object in the response array, create a new element for the carousel.
- *  - Append each of these new elements to the carousel.
- * - Use the other data you have been given to create an informational section within the infoDump element.
- *  - Be creative with how you create DOM elements and HTML.
- *  - Feel free to edit index.html and styles.css to suit your needs, but be careful!
- *  - Remember that functionality comes first, but user experience and design are important.
- * - Each new selection should clear, re-populate, and restart the Carousel.
- * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
- */
-
 breedSelect.addEventListener('click', handleClick);
+Carousel.clear();
 //I want to get the even listener to select just the breed id so I can get that into a variable, then request it in my api pull
 function handleClick(_x) {
   return _handleClick.apply(this, arguments);
 }
 function _handleClick() {
   _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(event) {
-    var breedId, imgUrl, response, jsonData, i, imgEl, divEl;
+    var breedId, imgUrl, imgId, response, jsonData, i, carouselItem;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           breedId = event.target.value;
-          imgUrl = ''; //  console.log(breedId)
-          _context2.next = 4;
+          imgUrl = '';
+          imgId = ''; //  console.log(breedId)
+          _context2.next = 5;
           return fetch("https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10"));
-        case 4:
+        case 5:
           response = _context2.sent;
-          _context2.next = 7;
+          _context2.next = 8;
           return response.json();
-        case 7:
+        case 8:
           jsonData = _context2.sent;
-          // console.log(jsonData)
+          console.log(jsonData);
           for (i = 0; i < jsonData.length; i++) {
             imgUrl = jsonData[i].url;
-            imgEl = document.createElement('img');
-            divEl = document.createElement('div');
-            divEl.setAttribute('class', 'img-wrapper carousel-item');
-            imgEl.setAttribute('class', 'carousel-item card');
-            imgEl.setAttribute('src', imgUrl);
-            divEl.appendChild(imgEl);
-            carouselInner.prepend(divEl);
+            imgId = jsonData[i].id;
+            carouselItem = Carousel.createCarouselItem(imgUrl, breedId, imgId);
+            carouselInner.appendChild(carouselItem);
 
             //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
           }
-        case 9:
+        case 11:
         case "end":
           return _context2.stop();
       }
@@ -12378,55 +12351,6 @@ var description = document.getElementById('description');
 function breedInfo(_x2) {
   return _breedInfo.apply(this, arguments);
 }
-/**
- * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
- */
-/**
- * 4. Change all of your fetch() functions to axios!
- * - axios has already been imported for you within index.js.
- * - If you've done everything correctly up to this point, this should be simple.
- * - If it is not simple, take a moment to re-evaluate your original code.
- * - Hint: Axios has the ability to set default headers. Use this to your advantage
- *   by setting a default header with your API key so that you do not have to
- *   send it manually with all of your requests! You can also set a default base URL!
- */
-/**
- * 5. Add axios interceptors to log the time between request and response to the console.
- * - Hint: you already have access to code that does this!
- * - Add a console.log statement to indicate when requests begin.
- * - As an added challenge, try to do this on your own without referencing the lesson material.
- */
-/**
- * 6. Next, we'll create a progress bar to indicate the request is in progress.
- * - The progressBar element has already been created for you.
- *  - You need only to modify its "width" style property to align with the request progress.
- * - In your request interceptor, set the width of the progressBar element to 0%.
- *  - This is to reset the progress with each request.
- * - Research the axios onDownloadProgress config option.
- * - Create a function "updateProgress" that receives a ProgressEvent object.
- *  - Pass this function to the axios onDownloadProgress config option in your event handler.
- * - console.log your ProgressEvent object within updateProgess, and familiarize yourself with its structure.
- *  - Update the progress of the request using the properties you are given.
- * - Note that we are not downloading a lot of data, so onDownloadProgress will likely only fire
- *   once or twice per request to this API. This is still a concept worth familiarizing yourself
- *   with for future projects.
- */
-/**
- * 7. As a final element of progress indication, add the following to your axios interceptors:
- * - In your request interceptor, set the body element's cursor style to "progress."
- * - In your response interceptor, remove the progress cursor style from the body element.
- */
-/**
- * 8. To practice posting data, we'll create a system to "favourite" certain images.
- * - The skeleton of this function has already been created for you.
- * - This function is used within Carousel.js to add the event listener as items are created.
- *  - This is why we use the export keyword for this function.
- * - Post to the cat API's favourites endpoint with the given ID.
- * - The API documentation gives examples of this functionality using fetch(); use Axios!
- * - Add additional logic to this function such that if the image is already favourited,
- *   you delete that favourite using the API, giving this function "toggle" functionality.
- * - You can call this function by clicking on the heart at the top right of any image.
- */
 function _breedInfo() {
   _breedInfo = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(event) {
     var response, jsonData, breedId, i;
@@ -12458,23 +12382,7 @@ function _breedInfo() {
 }
 function favourite(_x3) {
   return _favourite.apply(this, arguments);
-}
-/**
- * 9. Test your favourite() function by creating a getFavourites() function.
- * - Use Axios to get all of your favourites from the cat API.
- * - Clear the carousel and display your favourites when the button is clicked.
- *  - You will have to bind this event listener to getFavouritesBtn yourself.
- *  - Hint: you already have all of the logic built for building a carousel.
- *    If that isn't in its own function, maybe it should be so you don't have to
- *    repeat yourself in this section.
- */
-/**
- * 10. Test your site, thoroughly!
- * - What happens when you try to load the Malayan breed?
- *  - If this is working, good job! If not, look for the reason why and fix it!
- * - Test other breeds as well. Not every breed has the same data available, so
- *   your code should account for this.
- */
+} // please look at the axios branch on github for the rest of this lab. thank you.
 function _favourite() {
   _favourite = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(imgId) {
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
@@ -12512,7 +12420,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60575" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50309" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
