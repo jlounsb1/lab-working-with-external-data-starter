@@ -12305,6 +12305,7 @@ function _handleClick() {
   return _handleClick.apply(this, arguments);
 }
 breedSelect.addEventListener('click', breedInfo);
+var description = document.getElementById('description');
 function breedInfo(_x2) {
   return _breedInfo.apply(this, arguments);
 }
@@ -12359,7 +12360,7 @@ function breedInfo(_x2) {
  */
 function _breedInfo() {
   _breedInfo = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(event) {
-    var response, jsonData, breedId, i, pEl;
+    var response, jsonData, breedId, i;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
@@ -12374,9 +12375,7 @@ function _breedInfo() {
           breedId = event.target.value;
           for (i = 0; i < jsonData.length; i++) {
             if (breedId == jsonData[i].id) {
-              pEl = document.createElement('p');
-              pEl.textContent = "".concat(jsonData[i].description);
-              infoDump.append(pEl);
+              description.textContent = "".concat(jsonData[i].description);
             }
           }
           //It works, but it adds it on every selection, and doesnt overwrite anything.
@@ -12513,7 +12512,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52411" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60575" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
