@@ -12301,12 +12301,13 @@ function _handleClick() {
           // console.log(response)
           for (i = 0; i < responseAxios.data.length; i++) {
             imgUrl = responseAxios.data[i].url;
-            carouselItem = Carousel.createCarouselItem(imgUrl, breedId, responseAxios.data[i].url);
+            carouselItem = Carousel.createCarouselItem(imgUrl, breedId, responseAxios.data[i].id);
             carouselInner.appendChild(carouselItem);
-
+            console.log(responseAxios.data[i].id);
             //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
           }
-          console.log(responseAxios);
+          // console.log(responseAxios)
+          Carousel.start();
           _axios.default.interceptors.response.use(function (response) {
             response.config.metadata.endTime = new Date().getTime();
             response.durationInMS = response.config.metadata.endTime - response.config.metadata.startTime;
@@ -12586,7 +12587,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49441" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50626" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
