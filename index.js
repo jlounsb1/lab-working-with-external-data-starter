@@ -28,7 +28,8 @@ async function initialLoad() {
   let id = '';
   let name= '';
   const response = await axios.get('https://api.thecatapi.com/v1/breeds');
-  console.log(response)
+  // console.log(response)
+  
   //const jsonData = await response.json();
   for(let i=0; i<response.data.length; i++) {
     id = response.data[i].id;
@@ -40,33 +41,21 @@ async function initialLoad() {
     // console.log(id, name, option)
   }
   // console.log(jsonData)
+  
+
 }
 initialLoad();
 
-/**
- * 2. Create an event handler for breedSelect that does the following:
- * - Retrieve information on the selected breed from the cat API using fetch().
- *  - Make sure your request is receiving multiple array items!
- *  - Check the API documentation if you're only getting a single object.
- * - For each object in the response array, create a new element for the carousel.
- *  - Append each of these new elements to the carousel.
- * - Use the other data you have been given to create an informational section within the infoDump element.
- *  - Be creative with how you create DOM elements and HTML.
- *  - Feel free to edit index.html and styles.css to suit your needs, but be careful!
- *  - Remember that functionality comes first, but user experience and design are important.
- * - Each new selection should clear, re-populate, and restart the Carousel.
- * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
- */
+
 
 breedSelect.addEventListener('click', handleClick);
-//I want to get the even listener to select just the breed id so I can get that into a variable, then request it in my api pull
- async function handleClick(event) {
+
+async function handleClick(event) {
  const breedId = event.target.value;
  let imgUrl = '';
-//  console.log(breedId)
   const response = await axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}&limit=10`);
   // const jsonData = await response.json();
-  console.log(response)
+  // console.log(response)
   for(let i=0; i<response.data.length; i++) {
     imgUrl = response.data[i].url;
     let imgEl = document.createElement('img');
@@ -76,10 +65,27 @@ breedSelect.addEventListener('click', handleClick);
     imgEl.setAttribute('src',imgUrl);
     divEl.appendChild(imgEl)
     carouselInner.prepend(divEl);
-    
    //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
   }
+  axios.interceptors.response.use(
+    (response) => {
+        response.config.metadata.endTime = new Date().getTime();
+        response.durationInMS = response.config.metadata.endTime - response.config.metadata.startTime;
+        return response;
+    },
+    (error) => {
+        error.config.metadata.endTime = new Date().getTime();
+        error.durationInMS = error.config.metadata.endTime - error.config.metadata.startTime;
+        throw error;
+});
 
+(async () => {
+    const url = `https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}&limit=10`;
+
+    const { data, durationInMS } = await axios(url);
+    console.log(`Request took ${durationInMS} milliseconds.`);
+    
+})();
 }
 
 breedSelect.addEventListener('click', breedInfo);
@@ -94,28 +100,34 @@ async function breedInfo(event) {
       description.textContent = `${response.data[i].description}`;
     }
   }
-  
-}
-//This is a test to see if creating my new branch is working
+  axios.interceptors.request.use(request => {
+    request.metadata = request.metadata || {};
+    request.metadata.startTime = new Date().getTime();
+    return request;
+});
 
-/**
- * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
- */
-/**
- * 4. Change all of your fetch() functions to axios!
- * - axios has already been imported for you within index.js.
- * - If you've done everything correctly up to this point, this should be simple.
- * - If it is not simple, take a moment to re-evaluate your original code.
- * - Hint: Axios has the ability to set default headers. Use this to your advantage
- *   by setting a default header with your API key so that you do not have to
- *   send it manually with all of your requests! You can also set a default base URL!
- */
-/**
- * 5. Add axios interceptors to log the time between request and response to the console.
- * - Hint: you already have access to code that does this!
- * - Add a console.log statement to indicate when requests begin.
- * - As an added challenge, try to do this on your own without referencing the lesson material.
- */
+axios.interceptors.response.use(
+    (response) => {
+        response.config.metadata.endTime = new Date().getTime();
+        response.durationInMS = response.config.metadata.endTime - response.config.metadata.startTime;
+        return response;
+    },
+    (error) => {
+        error.config.metadata.endTime = new Date().getTime();
+        error.durationInMS = error.config.metadata.endTime - error.config.metadata.startTime;
+        throw error;
+});
+
+(async () => {
+    const url = 'https://api.thecatapi.com/v1/breeds';
+
+    const { data, durationInMS } = await axios(url);
+    console.log(`Request took ${durationInMS} milliseconds.`);
+    
+})();
+}
+//added axios intercepter logic to log timings. Largely copied from lesson, but api path adjusted and some logs deleted.
+
 
 /**
  * 6. Next, we'll create a progress bar to indicate the request is in progress.

@@ -12223,7 +12223,8 @@ function _initialLoad() {
           return _axios.default.get('https://api.thecatapi.com/v1/breeds');
         case 4:
           response = _context.sent;
-          console.log(response);
+          // console.log(response)
+
           //const jsonData = await response.json();
           for (i = 0; i < response.data.length; i++) {
             id = response.data[i].id;
@@ -12235,7 +12236,7 @@ function _initialLoad() {
             // console.log(id, name, option)
           }
           // console.log(jsonData)
-        case 7:
+        case 6:
         case "end":
           return _context.stop();
       }
@@ -12244,41 +12245,24 @@ function _initialLoad() {
   return _initialLoad.apply(this, arguments);
 }
 initialLoad();
-
-/**
- * 2. Create an event handler for breedSelect that does the following:
- * - Retrieve information on the selected breed from the cat API using fetch().
- *  - Make sure your request is receiving multiple array items!
- *  - Check the API documentation if you're only getting a single object.
- * - For each object in the response array, create a new element for the carousel.
- *  - Append each of these new elements to the carousel.
- * - Use the other data you have been given to create an informational section within the infoDump element.
- *  - Be creative with how you create DOM elements and HTML.
- *  - Feel free to edit index.html and styles.css to suit your needs, but be careful!
- *  - Remember that functionality comes first, but user experience and design are important.
- * - Each new selection should clear, re-populate, and restart the Carousel.
- * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
- */
-
 breedSelect.addEventListener('click', handleClick);
-//I want to get the even listener to select just the breed id so I can get that into a variable, then request it in my api pull
 function handleClick(_x) {
   return _handleClick.apply(this, arguments);
 }
 function _handleClick() {
-  _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(event) {
+  _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(event) {
     var breedId, imgUrl, response, i, imgEl, divEl;
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) switch (_context2.prev = _context2.next) {
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
         case 0:
           breedId = event.target.value;
-          imgUrl = ''; //  console.log(breedId)
-          _context2.next = 4;
+          imgUrl = '';
+          _context3.next = 4;
           return _axios.default.get("https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10"));
         case 4:
-          response = _context2.sent;
+          response = _context3.sent;
           // const jsonData = await response.json();
-          console.log(response);
+          // console.log(response)
           for (i = 0; i < response.data.length; i++) {
             imgUrl = response.data[i].url;
             imgEl = document.createElement('img');
@@ -12288,14 +12272,41 @@ function _handleClick() {
             imgEl.setAttribute('src', imgUrl);
             divEl.appendChild(imgEl);
             carouselInner.prepend(divEl);
-
             //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
           }
-        case 7:
+          _axios.default.interceptors.response.use(function (response) {
+            response.config.metadata.endTime = new Date().getTime();
+            response.durationInMS = response.config.metadata.endTime - response.config.metadata.startTime;
+            return response;
+          }, function (error) {
+            error.config.metadata.endTime = new Date().getTime();
+            error.durationInMS = error.config.metadata.endTime - error.config.metadata.startTime;
+            throw error;
+          });
+          _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+            var url, _yield$axios, data, durationInMS;
+            return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+              while (1) switch (_context2.prev = _context2.next) {
+                case 0:
+                  url = "https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10");
+                  _context2.next = 3;
+                  return (0, _axios.default)(url);
+                case 3:
+                  _yield$axios = _context2.sent;
+                  data = _yield$axios.data;
+                  durationInMS = _yield$axios.durationInMS;
+                  console.log("Request took ".concat(durationInMS, " milliseconds."));
+                case 7:
+                case "end":
+                  return _context2.stop();
+              }
+            }, _callee2);
+          }))();
+        case 8:
         case "end":
-          return _context2.stop();
+          return _context3.stop();
       }
-    }, _callee2);
+    }, _callee3);
   }));
   return _handleClick.apply(this, arguments);
 }
@@ -12303,25 +12314,7 @@ breedSelect.addEventListener('click', breedInfo);
 var description = document.getElementById('description');
 function breedInfo(_x2) {
   return _breedInfo.apply(this, arguments);
-} //This is a test to see if creating my new branch is working
-/**
- * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
- */
-/**
- * 4. Change all of your fetch() functions to axios!
- * - axios has already been imported for you within index.js.
- * - If you've done everything correctly up to this point, this should be simple.
- * - If it is not simple, take a moment to re-evaluate your original code.
- * - Hint: Axios has the ability to set default headers. Use this to your advantage
- *   by setting a default header with your API key so that you do not have to
- *   send it manually with all of your requests! You can also set a default base URL!
- */
-/**
- * 5. Add axios interceptors to log the time between request and response to the console.
- * - Hint: you already have access to code that does this!
- * - Add a console.log statement to indicate when requests begin.
- * - As an added challenge, try to do this on your own without referencing the lesson material.
- */
+} //added axios intercepter logic to log timings. Largely copied from lesson, but api path adjusted and some logs deleted.
 /**
  * 6. Next, we'll create a progress bar to indicate the request is in progress.
  * - The progressBar element has already been created for you.
@@ -12354,15 +12347,15 @@ function breedInfo(_x2) {
  * - You can call this function by clicking on the heart at the top right of any image.
  */
 function _breedInfo() {
-  _breedInfo = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(event) {
+  _breedInfo = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(event) {
     var response, breedId, i;
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-      while (1) switch (_context3.prev = _context3.next) {
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      while (1) switch (_context5.prev = _context5.next) {
         case 0:
-          _context3.next = 2;
+          _context5.next = 2;
           return _axios.default.get('https://api.thecatapi.com/v1/breeds');
         case 2:
-          response = _context3.sent;
+          response = _context5.sent;
           // const jsonData = await response.json();
           breedId = event.target.value;
           for (i = 0; i < response.data.length; i++) {
@@ -12370,11 +12363,44 @@ function _breedInfo() {
               description.textContent = "".concat(response.data[i].description);
             }
           }
-        case 5:
+          _axios.default.interceptors.request.use(function (request) {
+            request.metadata = request.metadata || {};
+            request.metadata.startTime = new Date().getTime();
+            return request;
+          });
+          _axios.default.interceptors.response.use(function (response) {
+            response.config.metadata.endTime = new Date().getTime();
+            response.durationInMS = response.config.metadata.endTime - response.config.metadata.startTime;
+            return response;
+          }, function (error) {
+            error.config.metadata.endTime = new Date().getTime();
+            error.durationInMS = error.config.metadata.endTime - error.config.metadata.startTime;
+            throw error;
+          });
+          _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+            var url, _yield$axios2, data, durationInMS;
+            return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+              while (1) switch (_context4.prev = _context4.next) {
+                case 0:
+                  url = 'https://api.thecatapi.com/v1/breeds';
+                  _context4.next = 3;
+                  return (0, _axios.default)(url);
+                case 3:
+                  _yield$axios2 = _context4.sent;
+                  data = _yield$axios2.data;
+                  durationInMS = _yield$axios2.durationInMS;
+                  console.log("Request took ".concat(durationInMS, " milliseconds."));
+                case 7:
+                case "end":
+                  return _context4.stop();
+              }
+            }, _callee4);
+          }))();
+        case 8:
         case "end":
-          return _context3.stop();
+          return _context5.stop();
       }
-    }, _callee3);
+    }, _callee5);
   }));
   return _breedInfo.apply(this, arguments);
 }
@@ -12398,14 +12424,14 @@ function favourite(_x3) {
  *   your code should account for this.
  */
 function _favourite() {
-  _favourite = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(imgId) {
-    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-      while (1) switch (_context4.prev = _context4.next) {
+  _favourite = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(imgId) {
+    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+      while (1) switch (_context6.prev = _context6.next) {
         case 0:
         case "end":
-          return _context4.stop();
+          return _context6.stop();
       }
-    }, _callee4);
+    }, _callee6);
   }));
   return _favourite.apply(this, arguments);
 }
@@ -12503,7 +12529,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60928" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61537" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
