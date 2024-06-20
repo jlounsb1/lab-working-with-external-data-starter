@@ -27,11 +27,12 @@ async function initialLoad() {
   
   let id = '';
   let name= '';
-  const response = await fetch('https://api.thecatapi.com/v1/breeds');
-  const jsonData = await response.json();
-  for(let i=0; i<jsonData.length; i++) {
-    id = jsonData[i].id;
-    name= jsonData[i].name;
+  const response = await axios.get('https://api.thecatapi.com/v1/breeds');
+  console.log(response)
+  //const jsonData = await response.json();
+  for(let i=0; i<response.data.length; i++) {
+    id = response.data[i].id;
+    name= response.data[i].name;
     let option= document.createElement('option');
     option.setAttribute('value',id);
     option.textContent = `${name}`;
@@ -63,11 +64,11 @@ breedSelect.addEventListener('click', handleClick);
  const breedId = event.target.value;
  let imgUrl = '';
 //  console.log(breedId)
-  const response = await fetch(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}&limit=10`);
-  const jsonData = await response.json();
-  // console.log(jsonData)
-  for(let i=0; i<jsonData.length; i++) {
-    imgUrl = jsonData[i].url;
+  const response = await axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}&limit=10`);
+  // const jsonData = await response.json();
+  console.log(response)
+  for(let i=0; i<response.data.length; i++) {
+    imgUrl = response.data[i].url;
     let imgEl = document.createElement('img');
     let divEl = document.createElement('div');
     divEl.setAttribute('class', 'img-wrapper carousel-item')
@@ -85,12 +86,12 @@ breedSelect.addEventListener('click', breedInfo);
 const description = document.getElementById('description');
 
 async function breedInfo(event) {
-  const response = await fetch('https://api.thecatapi.com/v1/breeds');
-  const jsonData = await response.json();
+  const response = await axios.get('https://api.thecatapi.com/v1/breeds');
+  // const jsonData = await response.json();
   let breedId = event.target.value;
-  for (let i=0; i<jsonData.length; i++){
-    if(breedId ==jsonData[i].id){
-      description.textContent = `${jsonData[i].description}`;
+  for (let i=0; i<response.data.length; i++){
+    if(breedId ==response.data[i].id){
+      description.textContent = `${response.data[i].description}`;
     }
   }
   

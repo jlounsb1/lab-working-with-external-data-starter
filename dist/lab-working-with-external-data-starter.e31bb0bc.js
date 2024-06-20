@@ -12282,23 +12282,21 @@ function initialLoad() {
 }
 function _initialLoad() {
   _initialLoad = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var id, name, response, jsonData, i, option;
+    var id, name, response, i, option;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           id = '';
           name = '';
           _context.next = 4;
-          return fetch('https://api.thecatapi.com/v1/breeds');
+          return _axios.default.get('https://api.thecatapi.com/v1/breeds');
         case 4:
           response = _context.sent;
-          _context.next = 7;
-          return response.json();
-        case 7:
-          jsonData = _context.sent;
-          for (i = 0; i < jsonData.length; i++) {
-            id = jsonData[i].id;
-            name = jsonData[i].name;
+          console.log(response);
+          //const jsonData = await response.json();
+          for (i = 0; i < response.data.length; i++) {
+            id = response.data[i].id;
+            name = response.data[i].name;
             option = document.createElement('option');
             option.setAttribute('value', id);
             option.textContent = "".concat(name);
@@ -12306,7 +12304,7 @@ function _initialLoad() {
             // console.log(id, name, option)
           }
           // console.log(jsonData)
-        case 9:
+        case 7:
         case "end":
           return _context.stop();
       }
@@ -12338,23 +12336,20 @@ function handleClick(_x) {
 }
 function _handleClick() {
   _handleClick = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(event) {
-    var breedId, imgUrl, response, jsonData, i, imgEl, divEl;
+    var breedId, imgUrl, response, i, imgEl, divEl;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           breedId = event.target.value;
           imgUrl = ''; //  console.log(breedId)
           _context2.next = 4;
-          return fetch("https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10"));
+          return _axios.default.get("https://api.thecatapi.com/v1/images/search?breed_ids=".concat(breedId, "&limit=10"));
         case 4:
           response = _context2.sent;
-          _context2.next = 7;
-          return response.json();
-        case 7:
-          jsonData = _context2.sent;
-          // console.log(jsonData)
-          for (i = 0; i < jsonData.length; i++) {
-            imgUrl = jsonData[i].url;
+          // const jsonData = await response.json();
+          console.log(response);
+          for (i = 0; i < response.data.length; i++) {
+            imgUrl = response.data[i].url;
             imgEl = document.createElement('img');
             divEl = document.createElement('div');
             divEl.setAttribute('class', 'img-wrapper carousel-item');
@@ -12365,7 +12360,7 @@ function _handleClick() {
 
             //I could get the images to properly load, but my carousel buttons dont seem to work. I think it is something wrong with my class names. 
           }
-        case 9:
+        case 7:
         case "end":
           return _context2.stop();
       }
@@ -12377,7 +12372,7 @@ breedSelect.addEventListener('click', breedInfo);
 var description = document.getElementById('description');
 function breedInfo(_x2) {
   return _breedInfo.apply(this, arguments);
-}
+} //This is a test to see if creating my new branch is working
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
  */
@@ -12429,26 +12424,22 @@ function breedInfo(_x2) {
  */
 function _breedInfo() {
   _breedInfo = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(event) {
-    var response, jsonData, breedId, i;
+    var response, breedId, i;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return fetch('https://api.thecatapi.com/v1/breeds');
+          return _axios.default.get('https://api.thecatapi.com/v1/breeds');
         case 2:
           response = _context3.sent;
-          _context3.next = 5;
-          return response.json();
-        case 5:
-          jsonData = _context3.sent;
+          // const jsonData = await response.json();
           breedId = event.target.value;
-          for (i = 0; i < jsonData.length; i++) {
-            if (breedId == jsonData[i].id) {
-              description.textContent = "".concat(jsonData[i].description);
+          for (i = 0; i < response.data.length; i++) {
+            if (breedId == response.data[i].id) {
+              description.textContent = "".concat(response.data[i].description);
             }
           }
-          //It works, but it adds it on every selection, and doesnt overwrite anything.
-        case 8:
+        case 5:
         case "end":
           return _context3.stop();
       }
@@ -12512,7 +12503,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60575" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60928" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
