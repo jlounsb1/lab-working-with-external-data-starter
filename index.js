@@ -93,9 +93,9 @@ async function breedInfo(event) {
       description.textContent = `${jsonData[i].description}`;
     }
   }
-  //It works, but it adds it on every selection, and doesnt overwrite anything.
+  
 }
-
+//This is a test to see if creating my new branch is working
 
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
